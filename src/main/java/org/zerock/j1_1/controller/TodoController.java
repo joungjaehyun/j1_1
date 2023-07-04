@@ -1,8 +1,13 @@
 package org.zerock.j1_1.controller;
 
+import java.util.Map;
+
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -36,5 +41,34 @@ public class TodoController {
         log.info(todoDTO);
         
         return todoService.register(todoDTO);
+    }
+
+       // 1개의 게시글 조회하는 기능
+    @GetMapping("/{tno}")
+    public TodoDTO get(@PathVariable Long tno){
+    //REST Controller -> advice처리해서 JSON 처리해주어야된다.
+
+        return todoService.getOne(tno);
+    }
+    // 1개의 게시글 삭제하는 기능
+    // payload가 안가니까 pathvariable 사용
+    @DeleteMapping("{tno}")
+    public Map<String, String>delete(@PathVariable("tno") Long tno){
+
+        todoService.remove(tno);
+        
+        return Map.of("result","success");
+    }
+    // 1개의 게시글 수정하는 기능
+    @PutMapping("{tno}")
+    public Map<String, String>update(
+        @PathVariable("tno") Long tno,
+        @RequestBody TodoDTO todoDTO){
+
+            todoDTO.setTno(tno);//안전하게 하기위한 설계
+            todoService.modify(todoDTO);
+        
+
+        return Map.of("result","success");
     }
 }

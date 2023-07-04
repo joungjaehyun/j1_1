@@ -18,11 +18,16 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class Todo {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long tno;
 
     @Column(length = 300, nullable = false)
     private String title;
+
+    public void changeTitle(String title) {
+        this.title = title;
+    }
+
 }

@@ -1,7 +1,7 @@
 package org.zerock.j1_1.service;
 
 import java.util.List;
-
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
@@ -39,6 +39,13 @@ public class TodoServiceImpl implements TodoService {
         result.getContent().stream()
         .map(todo -> modelMapper.map(todo, TodoDTO.class))
         .collect(Collectors.toList());
+        
+        // Stream을 생략하고싶으면
+        //  List<TodoDTO> dtoList=
+        // result.get()
+        // .map(todo -> modelMapper.map(todo, TodoDTO.class))
+        // .collect(Collectors.toList());
+        
         // PageResponseDTO에 dtoList를 담을수있게 생성
         PageResponseDTO<TodoDTO> respnose = new PageResponseDTO<>();
         // 담기
@@ -57,5 +64,35 @@ public class TodoServiceImpl implements TodoService {
 
         // 저장한 entity를 다시 TodoDTO로 변경 해서 return 해줌
         return modelMapper.map(result, TodoDTO.class);
+    }
+
+
+     @Override
+    public TodoDTO getOne(Long tno) {
+        // Optional 자바에서 중요한 역활
+        Optional<Todo> reuslt = todoRepository.findById(tno);
+
+        Todo todo = reuslt.orElseThrow();
+
+       TodoDTO dto = modelMapper.map(todo, TodoDTO.class);
+        
+       return dto;
+    }
+
+    @Override
+    public void remove(Long tno) {
+        
+        todoRepository.deleteById(tno);
+    }
+
+    @Override
+    public void modify(TodoDTO dto) {
+        // 수정날짜 관련으로 걸리기 때문에 이방법을 알고있는게 
+        // 훨씬 정신적으로 편하다.
+        Optional<Todo> result = todoRepository.findById(dto.getTno());
+        Todo todo = result.orElseThrow();
+
+        todo.changeTitle(dto.getTitle());
+        todoRepository.save(todo);
     }
 }
