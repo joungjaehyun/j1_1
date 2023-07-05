@@ -1,6 +1,5 @@
 package org.zerock.j1_1.repository;
 
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -115,11 +114,12 @@ public class BoardRepositoryTests {
         log.info(result);
 
     }
+
     // JPQL Modify Test
     @Commit
     @Transactional
     @Test
-    public void testModify(){
+    public void testModify() {
         Long bno = 100L;
         String title = "Modified Title 100";
         int count = boardRepository.modifyTitle(title, bno);
@@ -142,23 +142,31 @@ public class BoardRepositoryTests {
     }
 
     @Test
-    public void testNative(){
+    public void testNative() {
 
         List<Object[]> result = boardRepository.listNative();
-        
+
         result.forEach(arr -> log.info(Arrays.toString(arr)));
-        
+
     }
 
     // QBoard를 써서 만든테스트
     @Test
-    public void testSearch1(){
+    public void testSearch1() {
 
-       Pageable pageable = PageRequest.of(0, 10, Sort.by("bno").descending());
-       Page<Board> result = boardRepository.search1("tcw","1", pageable);
-       log.info(result.getTotalElements());
+        Pageable pageable = PageRequest.of(0, 10, Sort.by("bno").descending());
+        Page<Board> result = boardRepository.search1("tcw", "1", pageable);
+        log.info(result.getTotalElements());
 
-       result.get().forEach(b -> log.info(b));
+        result.get().forEach(b -> log.info(b));
+    }
+
+    @Test
+    public void testListWithRcntSearch() {
+
+        Pageable pageable = PageRequest.of(0, 10, Sort.by("bno").descending());
+
+        boardRepository.searchWithRcnt("tcw", "1", pageable);
     }
 
 }

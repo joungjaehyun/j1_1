@@ -41,6 +41,10 @@ dependencies {
 	// https://mvnrepository.com/artifact/org.modelmapper/modelmapper
 	// Entity => dto || dto => Entity
 	implementation group: 'org.modelmapper', name: 'modelmapper', version: '3.1.1'
+	
+	// sweagger ui
+	// https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-starter-webmvc-ui
+	implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-ui', version: '2.1.0'
 
 	// Querydsl 관련 설정2
 	implementation "com.querydsl:querydsl-jpa:${queryDslVersion}:jakarta"
