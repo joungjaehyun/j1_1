@@ -52,7 +52,14 @@ public interface BoardRepository extends JpaRepository<Board, Long>, BoardSearch
     // nativeQuery
     // 급할때 쓴다.
     // native Query를 쓰면 DB에 종속되게 되버린다.
-    @Query(value = "select * from t_board ", nativeQuery=true)
+    @Query(value = "select * from t_board ", nativeQuery = true)
     List<Object[]> listNative();
+
+    // 게시물에 따른 댓글의 갯수 추출
+    // 쿼리 만들때 단계적으로 잘라서 해낸다.
+    // JPQL를 짤때는 Class를 보고 짜줘야된다.
+
+    @Query("select b.bno, b.title, b.writer, count(r) from Board b left outer join Reply r on r.board = b group by b order by b.bno desc")
+    List<Object[]> getListWithRcnt();
 
 }
