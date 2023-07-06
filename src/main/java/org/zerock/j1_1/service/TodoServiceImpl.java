@@ -47,11 +47,11 @@ public class TodoServiceImpl implements TodoService {
         // .collect(Collectors.toList());
         
         // PageResponseDTO에 dtoList를 담을수있게 생성
-        PageResponseDTO<TodoDTO> respnose = new PageResponseDTO<>();
+        // PageResponseDTO<TodoDTO> respnose = new PageResponseDTO<>();
         // 담기
-        respnose.setDtoList(dtoList);
+        // respnose.setDtoList(dtoList);
         // Controller로 보낼값
-        return respnose;
+        return null;
 }
 
     @Override
