@@ -2,7 +2,7 @@ package org.zerock.j1_1.repository.search;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
+import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -96,11 +96,12 @@ public class BoardSearchImpl extends QuerydslRepositorySupport implements BoardS
                     case "t" -> searchBuilder.or(board.title.contains(keyword));
                     case "c" -> searchBuilder.or(board.content.contains(keyword));
                     case "w" -> searchBuilder.or(board.writer.contains(keyword));
+                    case "r" -> searchBuilder.or(reply.replyText.contains(keyword));
                 }
 
             } // end for
 
-            // for문 끝난후 where 로 searchBuilder 추가
+              // for문 끝난후 where 로 searchBuilder 추가
             query.where(searchBuilder);
         }
 
@@ -128,13 +129,15 @@ public class BoardSearchImpl extends QuerydslRepositorySupport implements BoardS
 
         log.info("count: " + count);
 
-        // Page까지 처리완료
+
+        // Page까지 처리완료 
         return new PageImpl<>(arrList, pageable, count);
 
     }
 
     @Override
     public PageResponseDTO<BoardListRcntDTO> searchDTORcnt(PageRequestDTO requestDTO) {
+        
         Pageable pageable = makePageable(requestDTO);
 
         QBoard board = QBoard.board;
@@ -165,7 +168,7 @@ public class BoardSearchImpl extends QuerydslRepositorySupport implements BoardS
 
             } // end for
 
-            // for문 끝난후 where 로 searchBuilder 추가
+              // for문 끝난후 where 로 searchBuilder 추가
             query.where(searchBuilder);
         }
         // paging 처리
@@ -176,12 +179,14 @@ public class BoardSearchImpl extends QuerydslRepositorySupport implements BoardS
 
         // 어제 했던 tuple 뽑는거 까진 똑같음
         // JPQL Query를 바로 BoardListRcntDTO로 추출하는 쿼리
-        JPQLQuery<BoardListRcntDTO> listQuery = query.select(Projections.bean(
-                BoardListRcntDTO.class,
-                board.bno,
-                board.title,
-                board.writer,
-                reply.countDistinct().as("replyCount")));
+        JPQLQuery<BoardListRcntDTO> listQuery =
+        query.select(Projections.bean(
+            BoardListRcntDTO.class, 
+            board.bno, 
+            board.title,
+            board.writer,
+            board.regDate, 
+            reply.countDistinct().as("replyCount")));
 
         // 쿼리를 List<BoardListRcntDTO>로 추출
         List<BoardListRcntDTO> list = listQuery.fetch();
@@ -191,8 +196,10 @@ public class BoardSearchImpl extends QuerydslRepositorySupport implements BoardS
 
         long totalCount = listQuery.fetchCount();
 
+
         return new PageResponseDTO<>(list, totalCount, requestDTO);
 
     }
 
+    
 }

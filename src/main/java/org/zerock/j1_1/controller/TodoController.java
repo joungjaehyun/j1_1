@@ -34,7 +34,7 @@ public class TodoController {
 
         return todoService.getList();
     }
-
+    // 등록하는 기능
     @PostMapping("")
     public TodoDTO register(@RequestBody TodoDTO todoDTO){
         log.info("register...................");
@@ -42,8 +42,7 @@ public class TodoController {
         
         return todoService.register(todoDTO);
     }
-
-       // 1개의 게시글 조회하는 기능
+    // 1개의 게시글 조회하는 기능
     @GetMapping("/{tno}")
     public TodoDTO get(@PathVariable Long tno){
     //REST Controller -> advice처리해서 JSON 처리해주어야된다.

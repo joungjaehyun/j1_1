@@ -16,9 +16,8 @@ import org.zerock.j1_1.dto.TodoDTO;
 import org.zerock.j1_1.repository.TodoRepository;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
 
-@Log4j2
+
 @RequiredArgsConstructor
 @Service
 public class TodoServiceImpl implements TodoService {
@@ -39,13 +38,6 @@ public class TodoServiceImpl implements TodoService {
         result.getContent().stream()
         .map(todo -> modelMapper.map(todo, TodoDTO.class))
         .collect(Collectors.toList());
-        
-        // Stream을 생략하고싶으면
-        //  List<TodoDTO> dtoList=
-        // result.get()
-        // .map(todo -> modelMapper.map(todo, TodoDTO.class))
-        // .collect(Collectors.toList());
-        
         // PageResponseDTO에 dtoList를 담을수있게 생성
         // PageResponseDTO<TodoDTO> respnose = new PageResponseDTO<>();
         // 담기
@@ -66,8 +58,7 @@ public class TodoServiceImpl implements TodoService {
         return modelMapper.map(result, TodoDTO.class);
     }
 
-
-     @Override
+    @Override
     public TodoDTO getOne(Long tno) {
         // Optional 자바에서 중요한 역활
         Optional<Todo> reuslt = todoRepository.findById(tno);

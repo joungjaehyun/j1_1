@@ -4,27 +4,33 @@ import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
-// 댓글 갯수 까지 나오는 DTO
 @Data
-@Builder
-@AllArgsConstructor
 @NoArgsConstructor
-@ToString
-public class BoardListRcntDTO {
+@AllArgsConstructor
+@Builder
+public class BoardDTO {
+    
+    // Board Entity => Board DTO 용도는생각 하지 말고 생성
+    // JSONFormat || JsonIgnore 날짜시간 처리시 사용한다.
+    // JsonIgnore json형식으로 만들지 말라.
 
     private Long bno;
+
     private String title;
+
+    private String content;
+
     private String writer;
-    private Long replyCount;
+
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime regDate;
-
+    
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime modDate;
 
 }

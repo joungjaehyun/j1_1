@@ -1,4 +1,5 @@
 package org.zerock.j1_1.domain;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -34,4 +35,15 @@ public class Reply {
     // 연관관계를 걸때는 기본적으로 LazyLoading을 건다.
     @ManyToOne(fetch = FetchType.LAZY)
     private Board board;
+
+     // 수정시 쓰기위한 함수 2개 설정  바꾸는 함수들만
+     public void changeText(String text){
+        this.replyText = text;
+    }
+
+    public void changeFile(String fileName){
+
+        this.replyFile = fileName;
+    }
+
 }

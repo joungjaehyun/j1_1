@@ -1,5 +1,6 @@
 package org.zerock.j1_1.domain;
 
+
 import java.time.LocalDateTime;
 
 import org.springframework.data.annotation.CreatedDate;

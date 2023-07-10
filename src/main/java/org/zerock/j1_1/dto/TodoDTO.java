@@ -8,4 +8,3 @@ public class TodoDTO {
     private Long tno;
     private String title;
 }
-

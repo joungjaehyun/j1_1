@@ -1,7 +1,5 @@
 package org.zerock.j1_1.repository.search;
-
 import java.util.List;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -21,12 +19,14 @@ public interface BoardSearch {
     // List<Board> search1();
 
     //Page<Board> search1 (Pageable pageable);
-    
+    // 기본 게시판의 검색조건
     Page<Board> search1 (String searchType, String searchKeyword, Pageable pageable);
 
+    // 기본 게시판 검색에 + 댓글
     Page<Object[]> searchWithRcnt(String searchType, String searchKeyword, Pageable pageable);
 
-     // DTO로 받는 검색방식 method
+
+    // DTO로 받는 검색방식 method
     PageResponseDTO<BoardListRcntDTO> searchDTORcnt(PageRequestDTO requestDTO);
 
     // Pageable을 반환하는 것을 만들어주는 method
